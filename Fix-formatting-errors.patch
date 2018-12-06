@@ -1,0 +1,48 @@
+From 91c3b547a1c9839260755c08133038178030b0f2 Mon Sep 17 00:00:00 2001
+From: Jan Chaloupka <jchaloup@redhat.com>
+Date: Tue, 12 Jun 2018 14:34:56 +0200
+Subject: [PATCH] Fix formatting errors
+
+---
+ proto/buffer/circular_test.go | 4 ++--
+ proto/stream_test.go          | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/proto/buffer/circular_test.go b/proto/buffer/circular_test.go
+index ea62ddd..ed0ca31 100644
+--- a/proto/buffer/circular_test.go
++++ b/proto/buffer/circular_test.go
+@@ -28,7 +28,7 @@ func TestEmptyRead(t *testing.T) {
+ 	n, err := c.Read(p[:])
+ 
+ 	if err != nil {
+-		t.Fatalf("Error on read operation: %v")
++		t.Fatalf("Error on read operation: %v", err)
+ 	}
+ 
+ 	if n != 0 {
+@@ -76,7 +76,7 @@ func TestMiddleRead(t *testing.T) {
+ 	}
+ 
+ 	if n != readSize {
+-		t.Fatalf("Read expected %d bytes, got %d", readSize)
++		t.Fatalf("Read expected %d bytes, got %d", readSize, n)
+ 	}
+ 
+ 	expected := incBuf(4, 8)
+diff --git a/proto/stream_test.go b/proto/stream_test.go
+index 8385ce9..df2fa9f 100644
+--- a/proto/stream_test.go
++++ b/proto/stream_test.go
+@@ -130,7 +130,7 @@ func TestDataAfterRst(t *testing.T) {
+ 
+ 	fRst := frame.NewWStreamRst()
+ 	if err := fRst.Set(301, frame.Cancel); err != nil {
+-		t.Fatal("Failed to make rst frame: %v", err)
++		t.Fatalf("Failed to make rst frame: %v", err)
+ 	}
+ 
+ 	if err := trans.WriteFrame(fRst); err != nil {
+-- 
+2.7.5
+
